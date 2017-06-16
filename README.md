@@ -29,3 +29,4 @@ This project uses AirBnB Javascript specs so you can write error-free react and 
 I wrote a [small guide](https://medium.com/@francesco.agnoletto/how-to-not-f-up-your-local-files-with-git-part-1-e0756c88fd3c) on how to contribute and the common etiquette to follow.
 
 # camper-leaderboard
+# camper-leaderboard
