@@ -14,45 +14,54 @@ const axios = require('axios');
 const rootURL = 'https://fcctop100.herokuapp.com/api/fccusers/top/'
 
 const SetSort = (props) => {
+  console.log('17 props', props)
         return(
           <div>
-         <span
-             className={props.sort === 'alltime' ? "active": null}
-             onClick={e => props.handleClick(e)}
-             name='alltime'>
-             All Time Points
-        </span>
-        <span
-             className={props.sort === 'recent' ? "active": null}
-             onClick={e => props.handleClick(e)}
-             name='recent'>
-             Points in Last 30 Days
-        </span>
+         <button
+             className={props.sort === 'alltime' ? "active": "inactive"}
+             onClick={e => props.onClick(e)}
+             name='alltime'
+             value='Sort by all-time points'>
+        </button>
+        <button
+             className={props.sort === 'recent' ? "active": "inactive"}
+             onClick={e => props.onClick(e)}
+             name='recent'
+             value='Sort by recent points'>
+        </button>
         </div>
       )
 }
 
 const CamperList = (props) => {
-  console.log('36',this.props);
+  console.log('36 props',props);
   return (
-    <table className='grid'>
+    <table className='camper__grid'>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Camper Name</th>
+        <th>
+          Points in Last 30 Days</th>
+        <th>
+          All Time Points</th>
+        </tr>
+    </thead>
       <tbody>
         {props.campers.map((camper, index) => {
         return (
-          <tr className='camper' key={camper.username}>
-            <td className='camper__rank'>#{index+1}</td>
+          <tr className='camper__row' key={camper.username}>
+            <td className='camper__rank'>{index+1}</td>
             <td className='camper__avatar'>
               <img
                className='camper__img'
                src={camper.img}
                alt={'Avatar for '+ camper.username}
-               />
+               />&nbsp;
+              <a href={'https://www.freecodecamp.com/' + camper.username}>{camper.username}</a>
             </td>
-            <td className='camper__name'>
-              <a href={camper.url}>{camper.username}</a>
-            </td>
-            <td className='camper__points--recent'>{camper.recent}</td>
-            <td className='camper__points--alltime'>{camper.alltime}</td>
+            <td className='camper__points'>{camper.recent}</td>
+            <td className='camper__points'>{camper.alltime}</td>
           </tr>
         )
     })}
@@ -64,6 +73,7 @@ const CamperList = (props) => {
 CamperList.propTypes = {
     campers: PropTypes.array.isRequired
 }
+
 
 SetSort.propTypes = {
     sort: PropTypes.string.isRequired,
@@ -82,7 +92,8 @@ class App extends React.Component {
 
   componentDidMount() {
     const sort = this.state.sort;
-    this.getCampers(sort)
+    this.getCampers(sort);
+    console.log('75', this.state);
   }
 
   getCampers (sort) {
@@ -101,15 +112,16 @@ class App extends React.Component {
   }
 
   handleClick(e){
+
+    let sort = e.target.name;
     this.setState({
-          sort: e.target.name
+          sort
         });
-    getCampers(this.state.sort)
+    console.log('100', sort);
+    this.getCampers(this.state.sort)
         .then(function(campers){
-            this.setState(function() {
-                return {
-                    campers
-                }
+            this.setState({
+            campers: campers.data
             })
         }.bind(this))
         .catch(this.handleError)
@@ -119,7 +131,7 @@ class App extends React.Component {
     return (
         <main>
           <h1>Camper Leaderboard</h1>
-        <SetSort
+          <SetSort
             sort={this.state.sort}
             onClick={this.handleClick}
             />
@@ -127,7 +139,6 @@ class App extends React.Component {
             ? <Loading />
             : <CamperList campers={this.state.campers} />
         }
-
         </main>
     );
   }

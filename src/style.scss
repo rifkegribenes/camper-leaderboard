@@ -1,7 +1,41 @@
+body {     font-family: 'Open Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;
+}
+
+main {
+	width: 100%;
+}
+
+.active, .inactive {
+	cursor: pointer;
+	text-decoration: underline;
+	text-align: center;
+}
+
 .camper {
+
+	&__grid {
+		width: 100%;
+	}
+
 	&__img {
-		height: 50px;
-		width: 50px;
+		height: 25px;
+		width: auto;
 		border-radius: 100%;
 	}
+
+	&__points {
+		text-align: center;
+	}
+
+	&__rank {
+		text-align: center;
+	}
+}
+
+td {
+	padding: 5px;
+}
+
+tr:nth-of-type(odd) {
+    background-color: rgba(0,0,0,.05);
 }
