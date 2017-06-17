@@ -5,10 +5,40 @@ main {
 	width: 100%;
 }
 
-.active, .inactive {
-	cursor: pointer;
-	text-decoration: underline;
+h1 {
 	text-align: center;
+}
+
+.active, .inactive {
+	appearance: none;
+	-webkit-appearance:none;
+	width: 100%;
+	background: transparent;
+	border: none;
+	padding: 0;
+	font-size: 1em;
+
+	&:hover {
+		color: rgba(0,0,0,.65);
+		text-decoration: underline;
+	}
+
+	&:focus,
+	&:active {
+		outline: none;
+	}
+}
+
+.active::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 10px solid rgba(0,0,0,.35);
+  position: relative;
+  top: 15px;
+  right: 8px;
 }
 
 .camper {
@@ -38,4 +68,16 @@ td {
 
 tr:nth-of-type(odd) {
     background-color: rgba(0,0,0,.05);
+}
+
+.sm {
+width: 10%;
+}
+
+.lg {
+width: 40%;
+}
+
+.md {
+	width: 25%;
 }

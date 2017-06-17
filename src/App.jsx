@@ -14,45 +14,47 @@ const axios = require('axios');
 const rootURL = 'https://fcctop100.herokuapp.com/api/fccusers/top/'
 
 const SetSort = (props) => {
-  console.log('17 props', props)
         return(
           <div>
-         <button
-             className={props.sort === 'alltime' ? "active": "inactive"}
-             onClick={e => props.onClick(e)}
-             name='alltime'
-             value='Sort by all-time points'>
-        </button>
-        <button
-             className={props.sort === 'recent' ? "active": "inactive"}
-             onClick={e => props.onClick(e)}
-             name='recent'
-             value='Sort by recent points'>
-        </button>
-        </div>
+            <table className='camper__grid'>
+              <thead>
+                <tr>
+                  <th className='sm'>#</th>
+                  <th className='lg'>Camper Name</th>
+                  <th className='md'>
+                    <button
+                       className={props.sort === 'recent' ? "active": "inactive"}
+                       onClick={e => props.onClick(e)}
+                       name='recent'>
+                       Recent points
+                    </button>
+                  </th>
+                  <th className='md'>
+                    <button
+                       className={props.sort === 'alltime' ? "active": "inactive"}
+                       onClick={e => props.onClick(e)}
+                       name='alltime'>
+                       All-time points
+                    </button>
+                  </th>
+                  </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
       )
 }
 
 const CamperList = (props) => {
-  console.log('36 props',props);
   return (
     <table className='camper__grid'>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Camper Name</th>
-        <th>
-          Points in Last 30 Days</th>
-        <th>
-          All Time Points</th>
-        </tr>
-    </thead>
       <tbody>
         {props.campers.map((camper, index) => {
         return (
           <tr className='camper__row' key={camper.username}>
-            <td className='camper__rank'>{index+1}</td>
-            <td className='camper__avatar'>
+            <td className='camper__rank sm'>{index+1}</td>
+            <td className='camper__avatar lg'>
               <img
                className='camper__img'
                src={camper.img}
@@ -60,8 +62,8 @@ const CamperList = (props) => {
                />&nbsp;
               <a href={'https://www.freecodecamp.com/' + camper.username}>{camper.username}</a>
             </td>
-            <td className='camper__points'>{camper.recent}</td>
-            <td className='camper__points'>{camper.alltime}</td>
+            <td className='camper__points md'>{camper.recent}</td>
+            <td className='camper__points md'>{camper.alltime}</td>
           </tr>
         )
     })}
@@ -91,9 +93,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const sort = this.state.sort;
-    this.getCampers(sort);
-    console.log('75', this.state);
+    this.getCampers(this.state.sort);
   }
 
   getCampers (sort) {
@@ -112,19 +112,11 @@ class App extends React.Component {
   }
 
   handleClick(e){
-
     let sort = e.target.name;
     this.setState({
           sort
         });
-    console.log('100', sort);
-    this.getCampers(this.state.sort)
-        .then(function(campers){
-            this.setState({
-            campers: campers.data
-            })
-        }.bind(this))
-        .catch(this.handleError)
+    this.getCampers(sort);
   }
 
   render() {
